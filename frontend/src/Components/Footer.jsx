@@ -67,7 +67,7 @@ const Footer = () => {
                 </div>
             </div>
             <div className="w-[75%] py-[3vw] flex justify-center items-center border-t-[0.1vw] border-[#4A4A4A]">
-                <p className='text-[1.1vw]'>{year} UpWALLS</p>
+                <p className='text-[1.1vw] font-bold'>{year} UpWALLS</p>
             </div>
         </div>
 
