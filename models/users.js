@@ -5,8 +5,15 @@ const userSchema = mongoose.Schema({
     required: true,
     unique: true,
   },
+  name: {
+    type: String,
+  },
+  mobile: {
+    type: Number,
+  },
   password: {
     type: String,
+    required:true,
   },
 });
 module.exports = mongoose.model("USER", userSchema);
