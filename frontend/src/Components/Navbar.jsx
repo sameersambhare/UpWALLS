@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { navMenu } from '../Constants/constant'
+import { Link } from 'react-router-dom'
 const Navbar = () => {
     const [iteme, setItem] = useState(0)
     const navStyle = {
@@ -17,13 +18,16 @@ const Navbar = () => {
                 </div>
                 <ul className='flex items-center gap-[2vw] text-[0.9vw] font-semibold'>
                     {navMenu.map((item, index) => (
-                        <li key={index} onMouseLeave={() => { setItem(0) }} onMouseEnter={() => { setItem(index) }} className={`${iteme == index && "bg-[#1A1A1A] text-white"} cursor-pointer rounded-lg px-[0.5vw] py-[0.1vw]`}>{item.id}</li>
+                        <Link to={item.url}><li key={index} onMouseLeave={() => { setItem(0) }} onMouseEnter={() => { setItem(index) }} className={`${iteme == index && "bg-[#1A1A1A] text-white"} cursor-pointer rounded-lg px-[0.5vw] py-[0.1vw]`}>{item.id}</li></Link>
                     ))}
                 </ul>
                 <div className="buttons">
                     <ul className='flex gap-[1vw] items-center text-[0.9vw]'>
-                        <li className='text-white bg-black font-semibold hover:bg-white hover:text-black border-[0.1vw] px-[1vw] py-[0.4vw] cursor-pointer rounded-lg'>Register</li>
-                        <li className='bg-[#17FEA6] text-[#212A26] font-semibold px-[1vw] py-[0.4vw] rounded-lg cursor-pointer'>Log In</li>
+                        <Link to='/register'><li className='text-white bg-black font-semibold hover:bg-white hover:text-black border-[0.1vw] px-[1vw] py-[0.4vw] cursor-pointer rounded-lg'>Register</li>
+                        </Link>
+                        <Link to='/login'>
+                            <li className='bg-[#17FEA6] text-[#212A26] font-semibold px-[1vw] py-[0.4vw] rounded-lg cursor-pointer'>Log In</li>
+                        </Link>
                     </ul>
                 </div>
             </div>
