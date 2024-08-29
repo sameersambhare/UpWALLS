@@ -57,7 +57,7 @@ const Footer = () => {
                 </div>
                 <div className="">
                     <p className='text-white pb-[2vw]'>Contact</p>
-                    <p>support@createwithplay.com</p>
+                    <p>support@upwalls.com</p>
                     <div className="flex gap-[1vw] pt-[1vw] text-[1.7vw]">
                         <FaTwitter className='cursor-pointer' />
                         <FaYoutube className='cursor-pointer' />
