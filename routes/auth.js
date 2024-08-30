@@ -1,53 +1,50 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt=require('bcrypt')
-const Jwt=require('jsonwebtoken')
-const JwtSecret=process.env.JwtSecret;
-const USER=require('../models/users')
-const nodemailer=require('nodemailer')
+const bcrypt = require("bcrypt");
+const Jwt = require("jsonwebtoken");
+const JwtSecret = process.env.JwtSecret;
+const USER = require("../models/users");
+const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-    service: "gmail",
-    port: 465,
-    secure: true, // Use `true` for port 465, `false` for all other ports
-    auth: {
-      user: "samuofficial94@gmail.com",
-      pass: "ncnwpzuudjdhsozf",
-    },
-  });
+  service: "gmail",
+  port: 465,
+  secure: true, // Use `true` for port 465, `false` for all other ports
+  auth: {
+    user: "samuofficial94@gmail.com",
+    pass: "ncnwpzuudjdhsozf",
+  },
+});
 
-router.get('/',(req,res)=>{
-    console.log('GET');
-    res.status(200).json({message:"GET"})
-})
-router.post('/register',(req,res)=>{
-    const {email,name,mobile,password}=req.body;
-    if(!email||!name||!mobile||!password){
-        res.status(422).json({error:"Please add all the fileds."})
-    }
-    else{
-        USER.findOne({email:email}).then((savedUser)=>{
-            if(savedUser){
-                res.status(422).json({error:"Email is already registered."})
-            }
-            else{
-                bcrypt.hash(password,10).then((hashPassword)=>{
-                    const newUser=new USER({
-                        email,
-                        name,
-                        mobile,
-                        password:hashPassword,
-                    })
-                    newUser.save().then((user)=>{
-                        if(!user){
-                            res.status(422).json({error:"Internal server error."})
-                        }
-                        else{
-                            const reciever={
-                                from:"samuofficial94@gmail.com",
-                                to:email,
-                                subject:"Welcome to UpWALLS! Your Registration is Confirmed",
-                                html:`  <div>
+router.get("/", (req, res) => {
+  console.log("GET");
+  res.status(200).json({ message: "GET" });
+});
+router.post("/register", (req, res) => {
+  const { email, name, mobile, password } = req.body;
+  if (!email || !name || !mobile || !password) {
+    res.status(422).json({ error: "Please add all the fileds." });
+  } else {
+    USER.findOne({ email: email }).then((savedUser) => {
+      if (savedUser) {
+        res.status(422).json({ error: "Email is already registered." });
+      } else {
+        bcrypt.hash(password, 10).then((hashPassword) => {
+          const newUser = new USER({
+            email,
+            name,
+            mobile,
+            password: hashPassword,
+          });
+          newUser.save().then((user) => {
+            if (!user) {
+              res.status(422).json({ error: "Internal server error." });
+            } else {
+              const reciever = {
+                from: "samuofficial94@gmail.com",
+                to: email,
+                subject: "Welcome to UpWALLS! Your Registration is Confirmed",
+                html: `  <div>
       <div class="header">
         <h1>Welcome to UpWALLS!</h1>
       </div>
@@ -73,42 +70,45 @@ router.post('/register',(req,res)=>{
         <p>Best regards,</p>
         <p>The UpWALLS Team</p>
       </div>
-      </div>`
-                            }
-                            console.log(user);
-                            transporter.sendMail(reciever)
-                            res.status(200).json({message:"Registered Successfully."})
-                        }
-                    })
-                })
+      </div>`,
+              };
+              console.log(user);
+              transporter.sendMail(reciever);
+              res.status(200).json({ message: "Registered Successfully." });
             }
-        })
-    }
-})
-router.post('/login',(req,res)=>{
-    const {email,password}=req.body;
-    if(!email||!password){
-        res.status(422).json({error:"Please add all the fields."})
-    }
-    else{
-        USER.findOne({email:email}).then((savedUser)=>{
-            if(!savedUser){
-                res.status(422).json({error:"Email is not registered."})
-            }
-            else{
-                const token=Jwt.sign({_id:savedUser.id},JwtSecret)
-                bcrypt.compare(password,savedUser.password).then((match)=>{
-                    if(match){
-                        const {email,name,mobile}=savedUser;
-                    res.status(200).json({message:"Login successfully.",token,localUser:{email,name,mobile}})
-                    }
-                    else{
-                        res.status(422).json({error:"Password is incorrect."})
-                    }
-                })
-            }
-        })
-    }
-})
+          });
+        });
+      }
+    });
+  }
+});
+router.post("/login", (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    res.status(422).json({ error: "Please add all the fields." });
+  } else {
+    USER.findOne({ email: email }).then((savedUser) => {
+      if (!savedUser) {
+        res.status(422).json({ error: "Email is not registered." });
+      } else {
+        const token = Jwt.sign({ _id: savedUser.id }, JwtSecret);
+        bcrypt.compare(password, savedUser.password).then((match) => {
+          if (match) {
+            const { email, name, mobile } = savedUser;
+            res
+              .status(200)
+              .json({
+                message: "Login successfully.",
+                token,
+                localUser: { email, name, mobile },
+              });
+          } else {
+            res.status(422).json({ error: "Password is incorrect." });
+          }
+        });
+      }
+    });
+  }
+});
 
 module.exports = router;

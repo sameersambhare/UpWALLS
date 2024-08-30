@@ -5,12 +5,12 @@ const Wallpapers = () => {
   const [photosList, setPhotosList] = useState([]);
   const [hoverIndex, setHoverIndex] = useState(null); // Changed to null for clarity
   const [downloadUrl, setDownloadUrl] = useState('');
-  const [pageIndex,setPageIndex]=useState(1);
+  const [pageIndex, setPageIndex] = useState(1);
 
   const downloadImage = (url) => {
     const link = document.createElement('a');
     link.href = url;
-    link.target="main";
+    link.target = "main";
     link.download = url.split('/').pop(); // Extract filename from URL
     document.body.appendChild(link);
     link.click();
@@ -20,7 +20,7 @@ const Wallpapers = () => {
   useEffect(() => {
     fetch(`https://api.pexels.com/v1/curated?page=${pageIndex}&per_page=50`, {
       headers: {
-        Authorization: "Dwk2bjVmg0Vsy5ULdY1bTbgiX36ixNYbmdqILdpO0w8WSh6JW2zIGVbV",
+        Authorization: `${import.meta.env.VITE_REACT_APP_API_KEY}`
       }
     })
       .then(res => res.json())
@@ -57,9 +57,11 @@ const Wallpapers = () => {
         })}
       </div>
       <div className="flex items-center gap-[1vw] text-[2vw] mt-[2vw]">
-        <BsChevronLeft className='border-[0.1vw] rounded-full p-[0.2vw]' onClick={()=>{let n=pageIndex-1;setPageIndex(n)}} />
-        <p className=''>{pageIndex}</p>
-        <BsChevronRight className='border-[0.1vw] rounded-full p-[0.2vw]' onClick={()=>{let n=pageIndex+1;setPageIndex(n)}} />
+        <BsChevronLeft className='border-[0.1vw] rounded-full p-[0.2vw]' onClick={() => {
+          pageIndex <= 0 ? setPageIndex(0) : setPageIndex(pageIndex - 1);
+        }} />
+        <p className=''>{pageIndex <= 9 ? `0${pageIndex}` : `${pageIndex}`}</p>
+        <BsChevronRight className='border-[0.1vw] rounded-full p-[0.2vw]' onClick={() => { let n = pageIndex + 1; setPageIndex(n) }} />
       </div>
     </div>
   );
