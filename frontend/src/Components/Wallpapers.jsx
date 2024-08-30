@@ -10,6 +10,7 @@ const Wallpapers = () => {
   const downloadImage = (url) => {
     const link = document.createElement('a');
     link.href = url;
+    link.target="main";
     link.download = url.split('/').pop(); // Extract filename from URL
     document.body.appendChild(link);
     link.click();
@@ -28,7 +29,7 @@ const Wallpapers = () => {
         setPhotosList(data.photos);
       })
       .catch(err => console.log(err));
-  }, [pageIndex]);
+  },);
 
   return (
     <div className="w-full font-['Apercu_pro'] min-h-screen bg-black text-white flex flex-col items-center py-[2vw]">
@@ -42,7 +43,7 @@ const Wallpapers = () => {
               }}
               onMouseLeave={() => setHoverIndex(null)} // Reset hoverIndex on mouse leave
             >
-              <img src={item.src.medium} alt="" className='object-cover w-full' />
+              <img src={item.src.medium} alt="" draggable="false" className='pointer-events-none object-cover w-full' />
               {hoverIndex === index && (
                 <button
                   className='absolute bottom-[1.5vw] left-1/2 -translate-x-1/2 bg-black rounded-lg font-semibold text-white py-[0.5vw] px-[2vw]'

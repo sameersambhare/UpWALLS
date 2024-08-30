@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom'
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 const Regsiter = () => {
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     const bgStyle = {
-        background: "rgb(62,63,98) linear-gradient(0deg, rgba(62,63,98,1) 0%, rgba(0,0,0,1) 72%)"
+        background: "#0E2662 radial-gradient(circle farthest-side at bottom center, #0E2662 0%, #000000 100%)"
+
     }
     const success = (msg) => {
         toast.success(msg)

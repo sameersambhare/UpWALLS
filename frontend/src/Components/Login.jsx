@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
-const Login = () => {
-    const navigate=useNavigate()
+const Login = ({zIndex,bgColor}) => {
+    const navigate = useNavigate()
     const success = (msg) => {
         toast.success(msg)
     }
@@ -34,8 +34,8 @@ const Login = () => {
         })
     }
     return (
-        <div style={{ background: " rgb(56,84,74) linear-gradient(0deg, rgba(56,84,74,1) 0%, rgba(0,0,0,1) 72%)" }} className='w-full h-screen text-white flex justify-center items-center'>
-            <div className="w-[50%] py-[4vw] bg-[#4f4f4f4e] items-center flex flex-col px-[4vw] rounded-xl gap-[1.5vw]">
+        <div style={{ background: bgColor|| "#156233 radial-gradient(circle farthest-side at bottom center, #156233 0%, #000000 100%)" }} className='w-full h-screen text-white flex justify-center items-center relative'>
+            <div className={`w-[50%] py-[4vw] bg-[#4f4f4f4e] items-center flex flex-col px-[4vw] rounded-xl gap-[1.5vw] ${zIndex===99?"z-[99]":"z-0"}`}>
                 <h1 className='text-[2.2vw] font-semibold'>Sign In!</h1>
                 <p className='text-[1.2vw] text-[#6C6C6C]'>Enter your valid credentials</p>
                 <div className="w-full">
