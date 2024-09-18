@@ -15,11 +15,6 @@ const transporter = nodemailer.createTransport({
     pass: "ncnwpzuudjdhsozf",
   },
 });
-
-router.get("/", (req, res) => {
-  console.log("GET");
-  res.status(200).json({ message: "GET" });
-});
 router.post("/register", (req, res) => {
   const { email, name, mobile, password } = req.body;
   if (!email || !name || !mobile || !password) {

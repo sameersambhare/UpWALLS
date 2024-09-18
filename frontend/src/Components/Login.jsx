@@ -13,7 +13,7 @@ const Login = ({zIndex,bgColor}) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const postDetails = () => {
-        fetch('http://localhost:5000/login', {
+        fetch('/login', {
             method: "post",
             headers: {
                 "Content-Type": "application/json",

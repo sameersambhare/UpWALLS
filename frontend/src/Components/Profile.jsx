@@ -8,7 +8,7 @@ const AuthorizedPage = ({ user,token }) => {
   const [mobile, setMobile] = useState("")
   const [location, setLocation] = useState("")
   const updateUser = () => {
-    fetch('http://localhost:5000/update-profile', {
+    fetch('/update-profile', {
       method: "post",
       headers: {
         "Content-Type": "application/json",
